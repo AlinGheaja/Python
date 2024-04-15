@@ -1,4 +1,3 @@
-#Necesar rulare: pytube
 import tkinter as tk
 from tkinter import messagebox, filedialog
 from pytube import YouTube
@@ -9,37 +8,37 @@ def download_video():
         yt = YouTube(url)
         stream = yt.streams.filter(progressive=True, file_extension='mp4').first()
         save_path = filedialog.askdirectory()
-        if save_path:  # Se verifica daca directorul de salvare a fost selectat
+        if save_path:  # Check if a directory was selected
             stream.download(output_path=save_path)
-            messagebox.showinfo("Succes", "Video a fost descarcat!")
+            messagebox.showinfo("Success", "Video downloaded successfully!")
         else:
-            messagebox.showwarning("Atentie", "Nu a fost selectata nici o cale pentru salvare.")
+            messagebox.showwarning("Warning", "No save location selected.")
     except Exception as e:
-        messagebox.showerror("Eroare", f"A aparut o eroare: {str(e)}")
+        messagebox.showerror("Error", f"An error occurred: {str(e)}")
 
 def paste_url():
     url = root.clipboard_get()
     entry.delete(0, tk.END)
     entry.insert(0, url)
 
-#Casuta de dialog !
+# Create main window
 root = tk.Tk()
-root.title("Descarcare YouTube")
-root.resizable(False, False)
+root.title("YouTube Video Downloader")
+root.resizable(False, False)  # Disable resizing
 
-#Text si lipire link
-label = tk.Label(root, text="Lipeste link-ul catre video YouTube:")
+# Create label and entry
+label = tk.Label(root, text="Paste YouTube video link:")
 label.pack(pady=10)
 entry = tk.Entry(root, width=50)
 entry.pack()
 
-#Butonul de lipire
-paste_button = tk.Button(root, text="Lipeste", command=paste_url)
+# Create paste button
+paste_button = tk.Button(root, text="Paste", command=paste_url)
 paste_button.pack(pady=5)
 
-#Butonul de descarcare
-download_button = tk.Button(root, text="Descarcare", command=download_video)
+# Create download button
+download_button = tk.Button(root, text="Download", command=download_video)
 download_button.pack(pady=10)
 
-#Se ruleaza bucla principala
+# Run the main loop
 root.mainloop()
